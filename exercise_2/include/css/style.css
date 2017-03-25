@@ -2,3 +2,12 @@ body {
 	margin:0px;
 	padding:0px;
 }
+
+.canvas-container{
+	margin: 20px auto;
+	width:800px;
+}
+
+.canvas-container canvas{
+  border: 1px solid gray;
+}
