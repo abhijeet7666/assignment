@@ -6,6 +6,8 @@ $(function() {
 		
 	C1.isMouseover = false;		// mouse hover status on canvas
 	C2.isMouseover = false;
+	C1.isDrag = false;			// object in dragging state
+	C2.isDrag = false;
 	
 	var Mouse = { 				// get mouse cordinate onhover canvas
 		posX : 0,
@@ -56,15 +58,29 @@ $(function() {
 	
 	// set mouse hover status
 	$C1_container.parent().on('mouseover',function(){ 
-		C1.isMouseover = true;
+	
+		C1.isMouseover = true; 
+		
+		if(C2.drag){
+			$(this).addClass("droppable");		// show canvas object droppable
+		}
 	}).on('mouseout',function(){ 
+	
 		C1.isMouseover = false;
+		
+		$(this).removeClass("droppable");
 	});
 	
 	$C2_container.parent().on('mouseover',function(){ 
 		C2.isMouseover = true;
+		
+		if(C1.drag){
+			$(this).addClass("droppable");		// show canvas object droppable
+		}
 	}).on('mouseout',function(){ 
 		C2.isMouseover = false;
+		
+		$(this).removeClass("droppable");
 	});
 	
 	// canvas events
@@ -75,6 +91,10 @@ $(function() {
 	}).on('mouse:move', function(options) {
 		Mouse.posX = options.e.layerX;
 		Mouse.posY = options.e.layerY;
+	}).on("object:moving", function(e){
+		C1.drag = true;
+	}).on("object:modified", function(e){
+		C1.drag = false;
 	});
 	
 	C2.on('mouse:up', function(e) {
@@ -84,6 +104,10 @@ $(function() {
 	}).on('mouse:move', function(options) {
 		Mouse.posX = options.e.layerX;
 		Mouse.posY = options.e.layerY;
+	}).on("object:moving", function(e){
+		C2.drag = true;
+	}).on("object:modified", function(e){
+		C2.drag = false;
 	});
 		
 	// button event
