@@ -16,6 +16,7 @@ $(function() {
   
 	var $C1_container 	= $(document.getElementById("c1")),
 		$C2_container 	= $(document.getElementById("c2")),
+		$drag_box 		= $(document.getElementById("drag_box")),
 		$add_circle_btn = $(document.getElementById("add_circle")),
 		$add_rect_btn 	= $(document.getElementById("add_rect")),
 		$obj_copy_btn	= $(document.getElementById("obj_copy"));
@@ -63,7 +64,9 @@ $(function() {
 		
 		if(C2.drag){
 			$(this).addClass("droppable");		// show canvas object droppable
+			$drag_box.show();
 		}
+		
 	}).on('mouseout',function(){ 
 	
 		C1.isMouseover = false;
@@ -76,7 +79,9 @@ $(function() {
 		
 		if(C1.drag){
 			$(this).addClass("droppable");		// show canvas object droppable
+			$drag_box.show();
 		}
+		
 	}).on('mouseout',function(){ 
 		C2.isMouseover = false;
 		
@@ -86,8 +91,8 @@ $(function() {
 	// canvas events
 	C1.on('mouse:up', function(e) {
 		if((e.target != null)&&( C2.isMouseover == true)){
-			moveObjects(C1, C2);
-		}
+			moveObjects(C1, C2); 
+		}		
 	}).on('mouse:move', function(options) {
 		Mouse.posX = options.e.layerX;
 		Mouse.posY = options.e.layerY;
@@ -95,6 +100,8 @@ $(function() {
 		C1.drag = true;
 	}).on("object:modified", function(e){
 		C1.drag = false;
+	}).on("object:selected", function(e){
+		$drag_box.css({width: e.target.width, height: e.target.height});
 	});
 	
 	C2.on('mouse:up', function(e) {
@@ -108,6 +115,15 @@ $(function() {
 		C2.drag = true;
 	}).on("object:modified", function(e){
 		C2.drag = false;
+	}).on("object:selected", function(e){
+		$drag_box.css({width: e.target.width, height: e.target.height});
+	});
+	
+	// document event
+	$(document).on('mousemove',function(e) {
+	  $drag_box.css({top:e.pageY+1, left:e.pageX+1});
+	}).on('mouseup',function(e) {
+	  $drag_box.hide();
 	});
 		
 	// button event

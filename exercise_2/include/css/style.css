@@ -12,5 +12,18 @@ body {
   border: 1px solid gray;
 }
 
-.canvas-container{ border:1px solid white;}
-.droppable {border:1px dashed blue;}
+.canvas-container{ 
+	border:1px solid white;
+}
+.droppable { 
+	border:1px dashed blue; 
+}
+
+.drag_box{ 
+	border:1px dotted gray;
+	width:100px;
+	height:100px;
+	position:absolute;
+	z-index:1000;
+	display:none;
+}
