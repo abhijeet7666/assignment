@@ -4,9 +4,15 @@ $(function() {
 	var C1 = this.__canvas = new fabric.Canvas('c1'),
 		C2 = this.__canvas = new fabric.Canvas('c2');	
 		
-	var $add_circle_btn = $(document.getElementById("add_circle")),
+	C1.isMouseover = false;		// mouse hover status on canvas
+	C2.isMouseover = false;
+  
+	var $C1_container 	= $(document.getElementById("c1")),
+		$C2_container 	= $(document.getElementById("c2")),
+		$add_circle_btn = $(document.getElementById("add_circle")),
 		$add_rect_btn 	= $(document.getElementById("add_rect")),
 		$obj_copy_btn	= $(document.getElementById("obj_copy"));
+	 
 	
 	// move objects from source canvas to target canvas
 	function moveObjects(src, dst){
@@ -42,6 +48,23 @@ $(function() {
 		}
 		
 	}
+	
+	// set mouse hover status
+	$C1_container.parent().on('mouseover',function(){ 
+		C1.isMouseover = true;
+	}).on('mouseout',function(){ 
+		C1.isMouseover = false;
+	});
+	
+	$C2_container.parent().on('mouseover',function(){ 
+		C2.isMouseover = true;
+	}).on('mouseout',function(){ 
+		C2.isMouseover = false;
+	});
+	
+	$(document).mousemove(function(e) { 
+		console.log(C1.isMouseover+','+C2.isMouseover);
+	}); 
 	
 	// button event
 	$add_circle_btn.on('click', function(){
