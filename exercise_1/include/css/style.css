@@ -3,6 +3,10 @@ body {
 	padding:0px;
 }
 
+textarea{
+	resize:none;
+}
+
 div.form_container{
 	margin: 50px auto;
 	width: 400px;
@@ -10,8 +14,26 @@ div.form_container{
 	padding: 30px;
 }
 
-div.form_container > div{
-	margin:5px 0px;
+div.form_container .form_section{
+	margin:15px 0px;
+	display:block;
 }
 
+div.form_container .form_section label{
+	width:30%;
+	display:inline-block;
+	vertical-align: top;
+	text-align: right;
+}
+
+div.form_container .form_section div{
+	width:60%;
+	display:inline-block;
+}
+
+div.form_container .form_section div select,
+div.form_container .form_section div input,
+div.form_container .form_section div textarea{
+	width:100%;
+}
 
