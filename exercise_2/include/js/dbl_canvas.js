@@ -6,6 +6,11 @@ $(function() {
 		
 	C1.isMouseover = false;		// mouse hover status on canvas
 	C2.isMouseover = false;
+	
+	var Mouse = { 				// get mouse cordinate onhover canvas
+		posX : 0,
+		posY : 0
+	};
   
 	var $C1_container 	= $(document.getElementById("c1")),
 		$C2_container 	= $(document.getElementById("c2")),
@@ -29,8 +34,8 @@ $(function() {
 			objectsInGroup.forEach(function(object) {
 				object.clone(function(c) {
 					dst.add(c.set({
-						left: c.left,
-						top: 0
+						left: Mouse.posX + (c.left - activeObj.left),
+						top: Mouse.posY + (c.top - activeObj.top)
 					}));
 				});
 				src.remove(object);
@@ -39,7 +44,7 @@ $(function() {
 		 }else{
 		 
 			activeObj.clone(function(c) {
-				dst.add(c.set({ left: c.left, top: 0 }));
+				dst.add(c.set({ left: Mouse.posX, top: Mouse.posY }));
 			});
 			
 			src.remove(activeObj);
@@ -62,25 +67,25 @@ $(function() {
 		C2.isMouseover = false;
 	});
 	
-	
 	// canvas events
 	C1.on('mouse:up', function(e) {
 		if((e.target != null)&&( C2.isMouseover == true)){
 			moveObjects(C1, C2);
 		}
+	}).on('mouse:move', function(options) {
+		Mouse.posX = options.e.layerX;
+		Mouse.posY = options.e.layerY;
 	});
 	
 	C2.on('mouse:up', function(e) {
 		if((e.target != null)&&( C1.isMouseover == true)){
 			moveObjects(C2, C1);
 		}
+	}).on('mouse:move', function(options) {
+		Mouse.posX = options.e.layerX;
+		Mouse.posY = options.e.layerY;
 	});
-	
-	// document mouse event
-	$(document).mousemove(function(e) { 
-		console.log(C1.isMouseover+','+C2.isMouseover);
-	}); 
-	
+		
 	// button event
 	$add_circle_btn.on('click', function(){
 		
