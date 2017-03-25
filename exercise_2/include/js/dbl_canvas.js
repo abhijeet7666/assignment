@@ -20,7 +20,16 @@ $(function() {
 		$add_circle_btn = $(document.getElementById("add_circle")),
 		$add_rect_btn 	= $(document.getElementById("add_rect")),
 		$obj_copy_btn	= $(document.getElementById("obj_copy"));
-	 
+
+	// random color
+	function getRandomColor() {
+		var letters = '0123456789ABCDEF';
+		var color = '#';
+		for (var i = 0; i < 6; i++ ) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
 	
 	// move objects from source canvas to target canvas
 	function moveObjects(src, dst){
@@ -129,8 +138,9 @@ $(function() {
 	// button event
 	$add_circle_btn.on('click', function(){
 		
+		var randomPosition = (Math.floor(Math.random() * 10) + 1)*10;
 		var circle = new fabric.Circle({
-			radius: 40, left: 50, top: 50, fill: '#f00'
+			radius: 40, left: randomPosition * 3, top: randomPosition, fill: getRandomColor()
 		});
 	
 		C1.add(circle);
@@ -140,20 +150,13 @@ $(function() {
 	// create rectangle
 	$add_rect_btn.on('click', function(){
 		
+		var randomPosition = (Math.floor(Math.random() * 10) + 1)*10;
 		var rect = new fabric.Rect({
-			width: 200, height: 100, left: 200, top: 50, fill: '#00f'
+			width: 200, height: 50, left: randomPosition * 3, top: randomPosition, fill: getRandomColor()
 		});
 	
 		C1.add(rect);
 		
-	});
-	
-	// copy selected objects from C1 to C2
-	$obj_copy_btn.on('click', function(){
-		 
-		moveObjects(C1, C2);
-		
-	});
-	
+	});	
 	
 });

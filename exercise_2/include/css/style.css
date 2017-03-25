@@ -8,11 +8,12 @@ body {
 	width:800px;	
 }
 
-.canvas_container canvas{
+.canvas_container canvas{  
   border: 1px solid gray;
 }
 
 .canvas-container{ 
+	margin-top:10px;
 	border:1px solid white;
 }
 .droppable { 
