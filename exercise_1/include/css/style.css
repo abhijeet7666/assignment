@@ -9,7 +9,7 @@ textarea{
 
 div.form_container{
 	margin: 50px auto;
-	width: 400px;
+	width: 50%;
 	border: 1px solid #bbb;
 	padding: 30px;
 }
@@ -36,4 +36,3 @@ div.form_container .form_section div input,
 div.form_container .form_section div textarea{
 	width:100%;
 }
-
