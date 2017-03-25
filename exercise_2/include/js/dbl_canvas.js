@@ -2,11 +2,46 @@ $(function() {
 		
 	// initialize canvas, buttons,
 	var C1 = this.__canvas = new fabric.Canvas('c1'),
-		C2 = this.__canvas = new fabric.Canvas('c2');
+		C2 = this.__canvas = new fabric.Canvas('c2');	
 		
 	var $add_circle_btn = $(document.getElementById("add_circle")),
-		$add_rect_btn 	= $(document.getElementById("add_rect"));	
+		$add_rect_btn 	= $(document.getElementById("add_rect")),
+		$obj_copy_btn	= $(document.getElementById("obj_copy"));
 	
+	// move objects from source canvas to target canvas
+	function moveObjects(src, dst){
+			
+		var activeObj = src.getActiveObject() == null ? src.getActiveGroup() : src.getActiveObject();
+	 
+		if(activeObj != null){
+
+		 if(activeObj.type == 'group'){
+		 
+			var objectsInGroup = activeObj.getObjects();
+				src.discardActiveGroup();
+
+			objectsInGroup.forEach(function(object) {
+				object.clone(function(c) {
+					dst.add(c.set({
+						left: c.left,
+						top: c.top
+					}));
+				});
+				src.remove(object);
+			});
+					
+		 }else{
+		 
+			activeObj.clone(function(c) {
+				dst.add(c.set({ left: c.left, top: c.top }));
+			});
+			
+			src.remove(activeObj);
+		 
+		 }
+		}
+		
+	}
 	
 	// button event
 	$add_circle_btn.on('click', function(){
@@ -19,6 +54,7 @@ $(function() {
 		
 	});
 	
+	// create rectangle
 	$add_rect_btn.on('click', function(){
 		
 		var rect = new fabric.Rect({
@@ -29,8 +65,12 @@ $(function() {
 		
 	});
 	
-	
-	
+	// copy selected objects from C1 to C2
+	$obj_copy_btn.on('click', function(){
+		 
+		moveObjects(C1, C2);
+		
+	});
 	
 	
 });
