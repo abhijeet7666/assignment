@@ -2,3 +2,16 @@ body {
 	margin:0px;
 	padding:0px;
 }
+
+div.form_container{
+	margin: 50px auto;
+	width: 400px;
+	border: 1px solid #bbb;
+	padding: 30px;
+}
+
+div.form_container > div{
+	margin:5px 0px;
+}
+
+
