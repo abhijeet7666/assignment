@@ -16,7 +16,7 @@ $(function() {
 	
 	// move objects from source canvas to target canvas
 	function moveObjects(src, dst){
-			
+			 
 		var activeObj = src.getActiveObject() == null ? src.getActiveGroup() : src.getActiveObject();
 	 
 		if(activeObj != null){
@@ -30,7 +30,7 @@ $(function() {
 				object.clone(function(c) {
 					dst.add(c.set({
 						left: c.left,
-						top: c.top
+						top: 0
 					}));
 				});
 				src.remove(object);
@@ -39,7 +39,7 @@ $(function() {
 		 }else{
 		 
 			activeObj.clone(function(c) {
-				dst.add(c.set({ left: c.left, top: c.top }));
+				dst.add(c.set({ left: c.left, top: 0 }));
 			});
 			
 			src.remove(activeObj);
@@ -62,6 +62,21 @@ $(function() {
 		C2.isMouseover = false;
 	});
 	
+	
+	// canvas events
+	C1.on('mouse:up', function(e) {
+		if((e.target != null)&&( C2.isMouseover == true)){
+			moveObjects(C1, C2);
+		}
+	});
+	
+	C2.on('mouse:up', function(e) {
+		if((e.target != null)&&( C1.isMouseover == true)){
+			moveObjects(C2, C1);
+		}
+	});
+	
+	// document mouse event
 	$(document).mousemove(function(e) { 
 		console.log(C1.isMouseover+','+C2.isMouseover);
 	}); 
