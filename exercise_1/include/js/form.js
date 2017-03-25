@@ -5,29 +5,67 @@ $(function() {
 	var inputJSON = {};
 	
 	// element selectors
-	var $form_index 		= $(document.getElementById("index_id")),
-		$form_user_id 		= $(document.getElementById("user_id")),
+	var $form_user_id 		= $(document.getElementById("user_id")),
+		$form_index 		= $(document.getElementById("index_id")),
 		$form_user_title 	= $(document.getElementById("user_title")),
 		$form_user_body 	= $(document.getElementById("user_body"));
 		
 	// render form elements
 	function loadFormElements(){
 		
-		for(var i=0, len = inputJSON.length; i<len ;i++){
-			$form_index.append("<option value="+inputJSON[i]['id']+" >"+inputJSON[i]['id']+"</option>");
-		}
+		var userId = new Array();
+		$form_user_id.append("<option value='-1' >Select an id</option>");
 		
-		$form_user_id.val(inputJSON[0]['userId']);
-		$form_user_title.val(inputJSON[0]['title']);
-		$form_user_body.val(inputJSON[0]['body']);		
+		for(var i=0, len = inputJSON.length; i<len ;i++){
+			if(userId.indexOf(inputJSON[i]['userId']) == -1){
+				userId.push(inputJSON[i]['userId']);
+				$form_user_id.append("<option value="+inputJSON[i]['userId']+" >"+inputJSON[i]['userId']+"</option>");
+			}
+		}	
+			
 	}
 	
 	// update form elements
-	function reloadFormElements(idx){
-		 
-		$form_user_id.val(inputJSON[idx]['userId']);
-		$form_user_title.val(inputJSON[idx]['title']);
-		$form_user_body.val(inputJSON[idx]['body']);
+	function reloadFormElements(idx, type){
+		
+		if(type == "even"){
+			
+			$form_index.empty();
+			$form_user_title.empty();
+			
+			var executeonce = true;
+			for(var i=0, len = inputJSON.length; i<len ;i++){
+				if(inputJSON[i]['userId'] == idx){
+					
+					if(executeonce){
+						$form_user_body.val(inputJSON[i]['body']);
+						executeonce = false;
+					}
+					
+					$form_index.append("<option value="+inputJSON[i]['id']+" >"+inputJSON[i]['id']+"</option>");
+					$form_user_title.append("<option value="+inputJSON[i]['id']+" >"+inputJSON[i]['title']+"</option>");
+				}
+			}
+			
+			$form_index.closest("div.form_section").show();
+			$form_user_title.closest("div.form_section").show();
+			$form_user_body.closest("div.form_section").show();
+			
+			
+			
+		}else if(type == "odd"){
+			
+			$form_index.closest("div.form_section").hide();
+			$form_user_body.closest("div.form_section").hide();
+			$form_user_title.empty();
+			
+			for(var i=0, len = inputJSON.length; i<len ;i++){
+				if(inputJSON[i]['userId'] == idx){
+				 	$form_user_title.append("<option value="+inputJSON[i]['id']+" >"+inputJSON[i]['title']+"</option>");
+				}
+			} 
+			
+		}	
 		
 	}
 
@@ -45,9 +83,16 @@ $(function() {
 	});
 	
 	// attach events
-	$form_index.on('change', function(){
+	$form_user_id.on('change', function(){
 		var id = $(this).val();
-		reloadFormElements(id);
+		
+		if(id == -1) return;
+		
+		if((id % 2)== 0){
+			reloadFormElements(id, 'even');
+		}else{
+			reloadFormElements(id, 'odd');
+		}
 	});
 		
 	
