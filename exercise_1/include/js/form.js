@@ -94,6 +94,31 @@ $(function() {
 			reloadFormElements(id, 'odd');
 		}
 	});
+	
+	$form_index.on('change', function(){
+		var id = $(this).val();
+		for(var i=0, len = inputJSON.length; i<len ;i++){
+			if(inputJSON[i]['id'] == id){
+				$form_user_body.val(inputJSON[i]['body']);
+				break;
+			}
+		}
+		
+		$form_user_title.val(id);
+		
+	});
+	
+	$form_user_title.on('change', function(){
+		var id = $(this).val();
+		for(var i=0, len = inputJSON.length; i<len ;i++){
+			if(inputJSON[i]['id'] == id){
+				$form_user_body.val(inputJSON[i]['body']);
+				break;
+			}
+		}
+
+		$form_index.val(id);
+	});
 		
 	
 });
